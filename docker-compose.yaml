@@ -6,7 +6,6 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: sto-server-status
-    hostname: oscr-server-status
     restart: always
     env_file: .env
     volumes:
