@@ -23,6 +23,6 @@ The .env file supports the following options:
 | Key | Default | Description |
 | --- | --- | --- |
 | STO_SERVER_STATUS_TOKEN |  | The Discord API Token associated with your Bot |
-| STO_SERVER_STATUS_CHANNEL | sto-news | The Discord Bot Will Send New STO news to channels matching this name |
+| STO_SERVER_STATUS_CHANNELS | sto-news | The Discord Bot Will Send New STO news to channels matching the comma separated list of names |
 
 
