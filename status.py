@@ -1,5 +1,5 @@
-import os
 import json
+import os
 import time
 
 import discord
@@ -60,12 +60,26 @@ def get_news_footer(item):
     return "platforms: " + ", ".join(item["platforms"])
 
 
+def send_news(channel, item):
+    url = f"https://www.playstartrekonline.com/en/news/article/{item['id']}"
+    embed = Embed(
+        title=item["title"],
+        url=url,
+        description=item["summary"],
+    )
+    embed.set_footer(text=get_news_footer(item))
+    embed.set_thumbnail(url=item["images"]["img_microsite_thumbnail"]["url"])
+    await channel.send(
+        embed=embed,
+    )
+
+
 @tasks.loop(seconds=60)
-async def fetch_news(ctx):
+async def fetch_news():
     with JsonLmdb.open("sto-server-status.db", "c") as db:
         res = get_news()
         if res is None:
-            await ctx.send("Failed to get Star Trek Online news")
+            print("Failed to get Star Trek Online news")
             return
 
         if res.get("news") is None:
@@ -75,27 +89,17 @@ async def fetch_news(ctx):
         for item in reversed(res["news"]):
             key = f"news.{item['id']}"
             if not db.get(key):
-                url = f"https://www.playstartrekonline.com/en/news/article/{item['id']}"
-                embed = Embed(
-                    title=item["title"],
-                    url=url,
-                    description=item["summary"],
-                )
-                embed.set_footer(text=get_news_footer(item))
-                embed.set_thumbnail(
-                    url=item["images"]["img_microsite_thumbnail"]["url"]
-                )
-                await ctx.send(embed=embed)
-                db[key] = True
+                for guild in client.guilds:
+                    for channel in guild.channels:
+                        if channel.name == "sto-news":
+                            send_news(channel, item)
+            db[key] = True
 
 
 @client.event
 async def on_ready():
     if not fetch_news.is_running():
-        channels = os.environ.get("STO_SERVER_STATUS_CHANNELS").split(",")
-        for channel in channels:
-            ctx = await client.fetch_channel(channel)
-            fetch_news.start(ctx)
+        fetch_news.start()
 
 
 if __name__ == "__main__":

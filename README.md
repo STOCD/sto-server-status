@@ -15,7 +15,6 @@ The .env file supports the following options:
 
 | Key | Description |
 | --- | --- |
-| STO_SERVER_STATUS_CHANNELS | A comma delimited list of Channel IDs the Bot will report news to. |
 | STO_SERVER_STATUS_TOKEN | The Discord API Token associated with your Bot |
 
 
