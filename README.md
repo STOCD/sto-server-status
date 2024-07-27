@@ -1,7 +1,7 @@
 # STO Server Status Discord Bot
 
-This is a Discord Bot for reporting News Posts for Star Trek Online. Originally
-it was designed to also report Server Status and that may also be added in the future.
+This is a Discord Bot for reporting news posts for Star Trek Online. Originally this
+was designed to also report Server Status and that may also be added in the future.
 
 ## Usage
 
