@@ -91,7 +91,7 @@ async def fetch_news():
             if not db.get(key):
                 for guild in client.guilds:
                     for channel in guild.channels:
-                        if channel.name == "sto-news":
+                        if channel.name == os.environ.get("STO_SERVER_STATUS_CHANNEL"):
                             send_news(channel, item)
             db[key] = True
 
