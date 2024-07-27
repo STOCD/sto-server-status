@@ -60,7 +60,7 @@ def get_news_footer(item):
     return "platforms: " + ", ".join(item["platforms"])
 
 
-def send_news(channel, item):
+async def send_news(channel, item):
     url = f"https://www.playstartrekonline.com/en/news/article/{item['id']}"
     embed = Embed(
         title=item["title"],
@@ -92,7 +92,7 @@ async def fetch_news():
                 for guild in client.guilds:
                     for channel in guild.channels:
                         if channel.name == os.environ.get("STO_SERVER_STATUS_CHANNEL"):
-                            send_news(channel, item)
+                            await send_news(channel, item)
             db[key] = True
 
 
