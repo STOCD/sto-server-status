@@ -69,9 +69,12 @@ async def send_news(channel, item):
     )
     embed.set_footer(text=get_news_footer(item))
     embed.set_thumbnail(url=item["images"]["img_microsite_thumbnail"]["url"])
-    await channel.send(
+    msg = await channel.send(
         embed=embed,
+        wait=True,
     )
+    if msg.channel.type == discord.ChannelType.news:
+        await msg.publish()
 
 
 @tasks.loop(seconds=60)
