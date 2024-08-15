@@ -96,7 +96,12 @@ async def fetch_news():
                         if channel.name in os.environ.get(
                             "STO_SERVER_STATUS_CHANNELS"
                         ).split(","):
-                            await send_news(channel, item)
+                            try:
+                                await send_news(channel, item)
+                            except Exception as e:
+                                print(
+                                    f"client={client} guild={guild} channel={channel} exception={e}"
+                                )
             db[key] = True
 
 
